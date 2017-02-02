@@ -55,4 +55,12 @@ public class PlayerController : MonoBehaviour
          float newY = Mathf.Clamp(transform.position.y, minY, maxY);
          transform.position = new Vector3(newX, newY, transform.position.z);
      }
+ 
+	void OnMouseDrag(){
+       
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0f;
+            transform.position = mousePos;
+       
+    }
 }

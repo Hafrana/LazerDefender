@@ -19,12 +19,11 @@ public class EnemySpawner : MonoBehaviour
 		}
 
 	}
-	 public void OnGrawGizmos()
-	 {
-	 	//Gizmos.DrawWireCube(transform.position, new Vector3(width, height));
-	 	Gizmos.DrawWireCube(transform.position, new Vector3(width, height));
+	public void OnGrawGizmos()
+	{
+		Gizmos.DrawWireCube(transform.position, new Vector3(width, height));
 
-	 }
+	}
 	
 	// Update is called once per frame
 	void Update () 

@@ -4,24 +4,45 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour 
 {
-	private int _healthOfTheEnemy;
+	public GameObject projectile;
+	public float projectileSpeed;
+	public float firingRate = 0.5f;
 
-	public int Health;
+	private float _healthOfTheEnemy = 150f;
 
-	void OnTriggerEnter2D(Collider2D other) 
+
+	void OnTriggerEnter2D(Collider2D collider) 
 	{
-        Destroy(gameObject);
-		Destroy(other.gameObject);
-    }
-	// Use this for initialization
-	void Start () 
+		BeamBehaviour beam = collider.gameObject.GetComponent<BeamBehaviour>();
+		if (beam)
+		{
+			_healthOfTheEnemy -= beam.GetDamage();
+			if (_healthOfTheEnemy <= 0)
+			{
+				Debug.Log("Enemy destroyed");
+				Destroy(gameObject);
+			}
+		} 
+	}
+	void Start()
 	{
 		
 	}
-	
-	// Update is called once per frame
-	void Update () 
+
+	void FireBeam()
 	{
-		
+		GameObject beam = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+		beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -projectileSpeed, 0);
 	}
+	void Update()
+	{
+		float probability = Time.deltaTime * firingRate;
+		if (Random.value < probability)
+		{
+			FireBeam();
+		}
+	}
+
+
+
 }

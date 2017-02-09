@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
 	public float pudding = 0.5f;
 	public GameObject projectile;
 	public float projectileSpeed;
-	public float firingRate = 0.2f;
+
+	private float _healthOfThePlayer = 350f;
+	//public float firingRate = 0.2f;
 
 	float minX;
 	float maxX;
@@ -36,14 +38,25 @@ public class PlayerController : MonoBehaviour
 
 	void FireBeam()
 	{
-		GameObject beam = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+		Vector3 offset = new Vector3 (0, 1, 0);
+		GameObject beam = Instantiate(projectile, transform.position + offset, Quaternion.identity) as GameObject;
 		beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed, 0);
 	}
 
-	void Hit()
+	void OnTriggerEnter2D(Collider2D collider) 
 	{
-		
+		BeamBehaviour beam = collider.gameObject.GetComponent<BeamBehaviour>();
+		if (beam)
+		{
+			_healthOfThePlayer -= beam.GetDamage();
+			if (_healthOfThePlayer <= 0)
+			{
+				Destroy(gameObject);
+				Destroy(beam);
+			}
+		}
 	}
+
      void Update ()
      {
 

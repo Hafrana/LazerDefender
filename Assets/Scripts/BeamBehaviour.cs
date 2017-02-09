@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class BeamBehaviour : MonoBehaviour 
 {
+	public float HitPoints = 100f;
 
-	//void OnTriggerEnter2D(Collider2D other) 
-	//{
-    //   Destroy(other.gameObject);
-    //}
+	public float GetDamage()
+	{
+		return HitPoints;
+	}
+
+	public void Hit()
+	{
+		Destroy(gameObject);
+	}
+
+
 }

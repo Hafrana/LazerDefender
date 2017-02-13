@@ -9,8 +9,9 @@ public class PlayerController : MonoBehaviour
 	public float pudding = 0.5f;
 	public GameObject projectile;
 	public float projectileSpeed;
+	public AudioClip lazerSound;
 
-	private float _healthOfThePlayer = 350f;
+	private float _healthOfThePlayer = 100f;
 	//public float firingRate = 0.2f;
 
 	float minX;
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
      	if (Input.GetMouseButtonDown(0))
      	{
      		FireBeam();
-			//InvokeRepeating("FireBeam", 0.0000001f, firingRate);
+			AudioSource.PlayClipAtPoint(lazerSound, transform.position);
      	}
      	//if (Input.GetMouseButtonUp(0))
      	//{

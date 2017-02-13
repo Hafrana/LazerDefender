@@ -1,33 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour 
 {
 	public GameObject projectile;
 	public float projectileSpeed;
 	public float firingRate = 0.5f;
+	public float healthOfTheEnemy = 20f;
+	public int scoreValue = 20;
+	public AudioClip enemyLazerSound;
+	public AudioClip enemyDestroySound;
 
-	private float _healthOfTheEnemy = 150f;
+	private ScoreManager scoreManager;
+	//private Explode Explodes;
 
+
+	void Start()
+	{
+		scoreManager =  GameObject.Find("ScoreText").GetComponent<ScoreManager>();
+		//Explodes = GameObject.Find("Explosion[Orange]").GetComponent<Explode>();
+
+	}
 
 	void OnTriggerEnter2D(Collider2D collider) 
 	{
 		BeamBehaviour beam = collider.gameObject.GetComponent<BeamBehaviour>();
 		if (beam)
 		{
-			_healthOfTheEnemy -= beam.GetDamage();
-			if (_healthOfTheEnemy <= 0)
+			healthOfTheEnemy -= beam.GetDamage();
+			if (healthOfTheEnemy <= 0)
 			{
 				Debug.Log("Enemy destroyed");
+				//Explodes = GameObject.Find("Explosion[Orange]").GetComponent<Explode>();
+				//Instantiate(Explodes);
 				Destroy(gameObject);
+				scoreManager.Score(scoreValue);
 			}
 		} 
 	}
-	void Start()
-	{
-		
-	}
+
 
 	void FireBeam()
 	{
@@ -40,6 +53,7 @@ public class Enemy : MonoBehaviour
 		if (Random.value < probability)
 		{
 			FireBeam();
+			AudioSource.PlayClipAtPoint(enemyLazerSound, transform.position);
 		}
 	}
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour 
 {
-	public GameObject enemyPrefab;
+	public GameObject[] enemiesPrefab;
 	public float spawnDelay = 0.5f;
 
 	void Start () 
@@ -12,13 +12,16 @@ public class EnemyController : MonoBehaviour
 		SpawnEnemy();
 	}
 
+
+	 
 	void SpawnEnemy()
 	{
 		foreach(Transform child in transform)
 		{
 			Debug.Log("Spawn Enemy");
-			GameObject enemy = Instantiate(enemyPrefab,	child.transform.position, Quaternion.identity) as GameObject;
+			GameObject enemy = Instantiate(enemiesPrefab[Random.Range(0, enemiesPrefab.Length)],	child.transform.position, Quaternion.identity) as GameObject;
 			enemy.transform.parent = child;
+
 		}
 	}
 
@@ -28,7 +31,7 @@ public class EnemyController : MonoBehaviour
 		if (freePosition)
 		{
 			Debug.Log("Spawn more enemies");
-			GameObject enemy = Instantiate(enemyPrefab,	freePosition.position, Quaternion.identity) as GameObject;
+			GameObject enemy = Instantiate(enemiesPrefab[Random.Range(0, enemiesPrefab.Length)],	freePosition.position, Quaternion.identity) as GameObject;
 			enemy.transform.parent = freePosition;
 		}
 		if(NextFreePosition())

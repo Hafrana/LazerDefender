@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
 	public void LoadLevel(string name)
 	{
 		Debug.Log ("New Level load: " + name);
-		SceneManager.LoadScene (name, LoadSceneMode.Additive);
+		SceneManager.LoadScene (name);
 	}
 
 	public void QuitRequest(){
@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
 
 	public void LoadNextLevel()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
 	}
 
 }

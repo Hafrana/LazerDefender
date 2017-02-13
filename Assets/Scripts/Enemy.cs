@@ -14,14 +14,10 @@ public class Enemy : MonoBehaviour
 	public AudioClip enemyDestroySound;
 
 	private ScoreManager scoreManager;
-	//private Explode Explodes;
-
 
 	void Start()
 	{
 		scoreManager =  GameObject.Find("ScoreText").GetComponent<ScoreManager>();
-		//Explodes = GameObject.Find("Explosion[Orange]").GetComponent<Explode>();
-
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) 
@@ -33,8 +29,6 @@ public class Enemy : MonoBehaviour
 			if (healthOfTheEnemy <= 0)
 			{
 				Debug.Log("Enemy destroyed");
-				//Explodes = GameObject.Find("Explosion[Orange]").GetComponent<Explode>();
-				//Instantiate(Explodes);
 				Destroy(gameObject);
 				scoreManager.Score(scoreValue);
 			}

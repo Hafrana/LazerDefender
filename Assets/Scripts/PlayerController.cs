@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
 	public AudioClip lazerSound;
 
 	private float _healthOfThePlayer = 100f;
-	//public float firingRate = 0.2f;
 
 	float minX;
 	float maxX;
@@ -35,11 +34,13 @@ public class PlayerController : MonoBehaviour
 		minY = upmost.y + pudding;
 		maxY = downmost.y - pudding;
 
+
+
 	}
 
 	void FireBeam()
 	{
-		Vector3 offset = new Vector3 (0, 1, 0);
+		Vector3 offset = new Vector3 (0, 0, 0);
 		GameObject beam = Instantiate(projectile, transform.position + offset, Quaternion.identity) as GameObject;
 		beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed, 0);
 	}
@@ -66,10 +67,7 @@ public class PlayerController : MonoBehaviour
      		FireBeam();
 			AudioSource.PlayClipAtPoint(lazerSound, transform.position);
      	}
-     	//if (Input.GetMouseButtonUp(0))
-     	//{
-     	//	CancelInvoke("FireBeam");
-     	//}
+ 
 		var spaceShipNewPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 	
   		//restrict the gamespace for ship

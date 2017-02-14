@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour 
 {
 	public GameObject projectile;
+	public GameObject explosion;
 	public float projectileSpeed;
 	public float firingRate = 0.5f;
 	public float healthOfTheEnemy = 20f;
@@ -29,6 +30,7 @@ public class Enemy : MonoBehaviour
 			if (healthOfTheEnemy <= 0)
 			{
 				Debug.Log("Enemy destroyed");
+				GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
 				Destroy(gameObject);
 				scoreManager.Score(scoreValue);
 			}

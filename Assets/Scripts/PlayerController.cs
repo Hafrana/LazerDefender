@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 	void Start() 
 	{
 		//Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+		//Cursor.visible = false;
 
 		float distance = transform.position.z - Camera.main.transform.position.z;
 		Vector3 leftmost = Camera.main.ViewportToWorldPoint(new Vector3(0,0,distance));
@@ -53,19 +53,24 @@ public class PlayerController : MonoBehaviour
 			_healthOfThePlayer -= beam.GetDamage();
 			if (_healthOfThePlayer <= 0)
 			{
-				Destroy(gameObject);
+				Die();
 				Destroy(beam);
 			}
 		}
 	}
+	void Die()
+	{
+		LevelManager loseLevel = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+		loseLevel.LoadLevel("Lose Screen");
+		Destroy(gameObject);
+	}
 
-     void Update ()
-     {
-
-     	if (Input.GetMouseButtonDown(0))
-     	{
-     		FireBeam();
-			AudioSource.PlayClipAtPoint(lazerSound, transform.position);
+    void Update ()
+    {
+    	if (Input.GetMouseButtonDown(0))
+    	{
+    		FireBeam();
+    		AudioSource.PlayClipAtPoint(lazerSound, transform.position);
      	}
  
 		var spaceShipNewPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

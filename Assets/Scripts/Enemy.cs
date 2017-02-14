@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 			if (healthOfTheEnemy <= 0)
 			{
 				Debug.Log("Enemy destroyed");
-				GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+				GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
 				Destroy(gameObject);
 				scoreManager.Score(scoreValue);
 			}

@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour 
 {
-	public GameObject[] enemiesPrefab;
-	public float spawnDelay = 0.5f;
+	public GameObject[] EnemiesPrefab;
+	public float SpawnDelay = 0.5f;
+	public Game Game;
 
 	void Start () 
 	{
 		SpawnEnemy();
 	}
-
-
 	 
 	void SpawnEnemy()
 	{
 		foreach(Transform child in transform)
 		{
 			Debug.Log("Spawn Enemy");
-			GameObject enemy = Instantiate(enemiesPrefab[Random.Range(0, enemiesPrefab.Length)],	child.transform.position, Quaternion.identity) as GameObject;
+			GameObject enemy = Instantiate(EnemiesPrefab[Random.Range(0, EnemiesPrefab.Length)],	child.transform.position, Quaternion.identity) as GameObject;
+			enemy.GetComponent<Enemy>().Game = Game;
 			enemy.transform.parent = child;
-
 		}
 	}
 
@@ -31,14 +30,15 @@ public class EnemyController : MonoBehaviour
 		if (freePosition)
 		{
 			Debug.Log("Spawn more enemies");
-			GameObject enemy = Instantiate(enemiesPrefab[Random.Range(0, enemiesPrefab.Length)],	freePosition.position, Quaternion.identity) as GameObject;
+			GameObject enemy = Instantiate(EnemiesPrefab[Random.Range(0, EnemiesPrefab.Length)], freePosition.position, Quaternion.identity) as GameObject;
+			enemy.GetComponent<Enemy>().Game = Game;
 			enemy.transform.parent = freePosition;
 		}
+
 		if(NextFreePosition())
 		{
-			Invoke("SpawnMoreEnemies", spawnDelay);
+			Invoke("SpawnMoreEnemies", SpawnDelay);
 		}
-
 	}
 
 	void Update () 

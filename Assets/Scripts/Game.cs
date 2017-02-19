@@ -1,10 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
-public class LevelManager : MonoBehaviour 
+public class Game : MonoBehaviour 
 {
+	public int ScoreValue = 20;
+	public ScoreManager ScoreManager;
+
+	public void OnEnemyDestroyed()
+	{
+		ScoreManager.Score(ScoreValue);
+	}
 
 	public void LoadLevel(string name)
 	{

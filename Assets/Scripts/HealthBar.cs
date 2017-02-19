@@ -15,16 +15,12 @@ public class HealthBar : MonoBehaviour
 	{
 		set
 		{
-			
 			slider.value = value/MaxValue;
 		}
 	}
 
-
-	// Use this for initialization
 	void Awake () 
 	{
 		slider = gameObject.GetComponent<Slider>();
-
 	}
 }

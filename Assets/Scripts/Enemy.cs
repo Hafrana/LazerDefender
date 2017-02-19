@@ -5,54 +5,45 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour 
 {
-	public GameObject projectile;
-	public GameObject explosion;
-	public float projectileSpeed;
-	public float firingRate = 0.5f;
-	public float healthOfTheEnemy = 20f;
-	public int scoreValue = 20;
-	public AudioClip enemyLazerSound;
-	public AudioClip enemyDestroySound;
+	public GameObject Projectile;
+	public GameObject Explosion;
+	public float ProjectileSpeed;
+	public float FiringRate = 0.5f;
+	public float EnemyHealth;
+	public AudioClip EnemyLazerSound;
+	//public AudioClip EnemyDestroySound;
+	public Game Game;
 
-	private ScoreManager scoreManager;
-
-	void Start()
-	{
-		scoreManager =  GameObject.Find("ScoreText").GetComponent<ScoreManager>();
-	}
 
 	void OnTriggerEnter2D(Collider2D collider) 
 	{
 		BeamBehaviour beam = collider.gameObject.GetComponent<BeamBehaviour>();
 		if (beam)
 		{
-			healthOfTheEnemy -= beam.GetDamage();
-			if (healthOfTheEnemy <= 0)
+			EnemyHealth -= beam.GetDamage();
+			if (EnemyHealth <= 0f)
 			{
 				Debug.Log("Enemy destroyed");
-				GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
+				GameObject boom = Instantiate(Explosion, transform.position, Quaternion.identity) as GameObject;
 				Destroy(gameObject);
-				scoreManager.Score(scoreValue);
+				beam.Hit();
+				Game.OnEnemyDestroyed();
 			}
 		} 
 	}
-
-
 	void FireBeam()
 	{
-		GameObject beam = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
-		beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -projectileSpeed, 0);
+		GameObject beam = Instantiate(Projectile, transform.position, Quaternion.identity) as GameObject;
+		beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -ProjectileSpeed, 0);
 	}
+
 	void Update()
 	{
-		float probability = Time.deltaTime * firingRate;
+		float probability = Time.deltaTime * FiringRate;
 		if (Random.value < probability)
 		{
 			FireBeam();
-			AudioSource.PlayClipAtPoint(enemyLazerSound, transform.position);
+			AudioSource.PlayClipAtPoint(EnemyLazerSound, transform.position);
 		}
 	}
-
-
-
 }

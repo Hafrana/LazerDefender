@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour 
 {
 
-	public float speed = 15f;
-	public float pudding = 0.5f;
-	public GameObject projectile;
-	public float projectileSpeed;
-	public AudioClip lazerSound;
-
-	public HealthStat Health;
+	public float Speed = 15f;
+	public float Pudding = 0.5f;
+	public GameObject Projectile;
+	public float ProjectileSpeed;
+	public float DieDelay = 0.5f;
+	public AudioClip LazerSound;
+	public AudioClip PlayerDestroyed;
+	public HealthStat PlayerHealth;
 
 	float minX;
 	float maxX;
@@ -21,28 +22,28 @@ public class PlayerController : MonoBehaviour
 
 	void Start() 
 	{
+		PlayerHealth.Initialize();
 		ShipMoveByMouse();
-		//_healthOfThePlayer.MaxVal = 100;
 	}
 
-	void ShipMoveByMouse()
+	public void ShipMoveByMouse()
 	{
 		float distance = transform.position.z - Camera.main.transform.position.z;
 		Vector3 leftmost = Camera.main.ViewportToWorldPoint(new Vector3(0,0,distance));
 		Vector3 rightmost = Camera.main.ViewportToWorldPoint(new Vector3(1,0,distance));
-		minX  = leftmost.x + pudding;
-		maxX = rightmost.x - pudding;
+		minX  = leftmost.x + Pudding;
+		maxX = rightmost.x - Pudding;
 		Vector3 upmost = Camera.main.ViewportToWorldPoint(new Vector3(0,0,distance));
 		Vector3 downmost = Camera.main.ViewportToWorldPoint(new Vector3(0,1,distance));
-		minY = upmost.y + pudding;
-		maxY = downmost.y - pudding;
+		minY = upmost.y + Pudding;
+		maxY = downmost.y - Pudding;
 	}
 
 	void FireBeam()
 	{
 		Vector3 offset = new Vector3 (0, 0, 0);
-		GameObject beam = Instantiate(projectile, transform.position + offset, Quaternion.identity) as GameObject;
-		beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed, 0);
+		GameObject beam = Instantiate(Projectile, transform.position + offset, Quaternion.identity) as GameObject;
+		beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, ProjectileSpeed, 0);
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) 
@@ -51,31 +52,29 @@ public class PlayerController : MonoBehaviour
 
 		if (beam)
 		{
-			Health.CurrentVal -= beam.GetDamage();
-			if (Health.CurrentVal <= 0)
+			PlayerHealth.CurrentVal -= beam.GetDamage();
+			if (PlayerHealth.CurrentVal <= 0)
 			{
 				Die();
-				Destroy(beam);
+				AudioSource.PlayClipAtPoint(PlayerDestroyed, transform.position);
+				beam.Hit();
 			}
-
 		}
 	}
+
 	void Die()
 	{
 		LevelManager loseLevel = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 		loseLevel.LoadLevel("Lose Screen");
 		Destroy(gameObject);
 	}
-	private void Awake()
-	{
-		Health.Initialize();
-	}
+
     void Update ()
     {
     	if (Input.GetMouseButtonDown(0))
     	{
     		FireBeam();
-    		AudioSource.PlayClipAtPoint(lazerSound, transform.position);
+    		AudioSource.PlayClipAtPoint(LazerSound, transform.position);
      	}
 
 		//restrict the gamespace for ship

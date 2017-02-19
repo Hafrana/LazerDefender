@@ -6,17 +6,10 @@ using UnityEngine.UI;
 public class ScoreDisplay : MonoBehaviour 
 {
 
-	// Use this for initialization
 	void Start () 
 	{
 		Text myText = GetComponent<Text>();
 		myText.text = ScoreManager.score.ToString();
 		ScoreManager.Reset();
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
 	}
 }

@@ -58,23 +58,27 @@ public class PlayerController : MonoBehaviour
 			if (PlayerHealth.CurrentVal <= 0)
 			{
 				GameObject boom = Instantiate(Explosion, transform.position, Quaternion.identity) as GameObject;
-				Destroy(gameObject);
+
+				var allRenderers = gameObject.GetComponentsInChildren<Renderer>();
+				foreach (var renderer in allRenderers) 
+				{
+					renderer.enabled = false;
+				}
 				AudioSource.PlayClipAtPoint(PlayerDestroyed, transform.position);
-				Game loseLevel = GameObject.Find("Game").GetComponent<Game>();  
-				loseLevel.LoadLevel("Lose Screen");
-				//Invoke("LoadLevel", 1f);
-
-
+				var coroutine = FadeToEnd();
+        		StartCoroutine(coroutine);
 			}
 		}
-	}
 
-
-	//void LoadLevel()
-	//{
-		//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
-
-	//}
+    }
+   
+    private IEnumerator FadeToEnd() 
+    {
+        yield return new WaitForSeconds(3f);
+		Destroy(gameObject);
+		Game loseLevel = GameObject.Find("Game").GetComponent<Game>();  
+		loseLevel.LoadLevel("Lose Screen");
+    }
 
     void Update ()
     {

@@ -29,17 +29,17 @@ struct v2f {
 uniform float _BumpAmt;
 
 
-//half4 frag( v2f i ) : COLOR
-//{
+half4 frag( v2f i ) : COLOR
+{
 	// calculate perturbed coordinates
-//	half2 bump = UnpackNormal(tex2D( _BumpMap, i.uvbump )).rg; // we could optimize this by just reading the x & y without reconstructing the Z
-//	float2 offset = bump * _BumpAmt * _GrabTexture_TexelSize.xy;
-//	i.uvgrab.xy = offset * i.uvgrab.z + i.uvgrab.xy;
+	half2 bump = UnpackNormal(tex2D( _BumpMap, i.uvbump )).rg; // we could optimize this by just reading the x & y without reconstructing the Z
+	float2 offset = bump * _BumpAmt * _GrabTexture_TexelSize.xy;
+	i.uvgrab.xy = offset * i.uvgrab.z + i.uvgrab.xy;
 	
-//	half4 col = tex2Dproj( _GrabTexture, i.uvgrab.xyw );
-//	half4 tint = tex2D( _MainTex, i.uvmain );
-//	return col * tint;
-//}
+	half4 col = tex2Dproj( _GrabTexture, i.uvgrab.xyw );
+	half4 tint = tex2D( _MainTex, i.uvmain );
+	return col * tint;
+}
 ENDCG
 
 Category {

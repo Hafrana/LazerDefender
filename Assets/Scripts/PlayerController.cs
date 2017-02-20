@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour 
 {
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
 	public float Pudding = 0.5f;
 	public GameObject Projectile;
 	public float ProjectileSpeed;
+	public GameObject Explosion;
 	public float DieDelay = 0.5f;
 	public AudioClip LazerSound;
 	public AudioClip PlayerDestroyed;
@@ -55,19 +57,24 @@ public class PlayerController : MonoBehaviour
 			PlayerHealth.CurrentVal -= beam.GetDamage();
 			if (PlayerHealth.CurrentVal <= 0)
 			{
-				Die();
+				GameObject boom = Instantiate(Explosion, transform.position, Quaternion.identity) as GameObject;
+				Destroy(gameObject);
 				AudioSource.PlayClipAtPoint(PlayerDestroyed, transform.position);
-				beam.Hit();
+				Game loseLevel = GameObject.Find("Game").GetComponent<Game>();  
+				loseLevel.LoadLevel("Lose Screen");
+				//Invoke("LoadLevel", 1f);
+
+
 			}
 		}
 	}
 
-	void Die()
-	{
-		LevelManager loseLevel = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-		loseLevel.LoadLevel("Lose Screen");
-		Destroy(gameObject);
-	}
+
+	//void LoadLevel()
+	//{
+		//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+
+	//}
 
     void Update ()
     {
